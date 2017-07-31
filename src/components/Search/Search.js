@@ -39,8 +39,8 @@ const getSuggestionValue = (suggestion) => {
 const renderSuggestion = (suggestion) => {
   return (
     <div>
-      <img src={suggestion.smallThumbnail} />
-      <span>{suggestion.title}</span>
+      <img width="20%" src={suggestion.smallThumbnail} />
+      <span className="ml-2">{suggestion.title}</span>
     </div>
   );
 }

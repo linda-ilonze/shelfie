@@ -15,6 +15,7 @@ export const getUserApi = (token) =>{
     })
     .catch(function(error){
         console.log(error);
+        
     });
 }
 
@@ -30,6 +31,7 @@ export const loginApi = (username, password) => {
     })
     .catch(function(error){
         console.log(error);
+        return error;
     });
 }
 
@@ -48,5 +50,34 @@ export const registerApi = (email, username, password) => {
     })
     .catch(function(error){
         console.log(error);
+        return error;
     });
+}
+
+export const addBook = (book, token) => {
+    return axios.post(`${URL}/users/addBook`, 
+    {
+        book : {
+            title: book.title,
+            description: book.description,
+            isbn : book.isbn,
+            author: book.author,
+            category : book.category,
+            averageRating : book.averageRating,
+            smallThumbnail: book.smallThumbnail,
+            thumbnail: book.thumbnail,
+            language: book.language,
+            publisher: book.publisher,
+            publishedDate: book.publishedDate,
+            googleLink :book.googleLink      
+        }
+    })
+    .then(function(response){
+        return response.data;
+    })
+    .catch(function(error){
+        console.log(error);
+        return error;
+    })
+
 }

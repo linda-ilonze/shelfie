@@ -6,7 +6,7 @@ import { Card,CardImg, CardBlock, CardGroup } from 'reactstrap';
 import KindleIcon from './../../images/Kindle-icon.png';
 import PlayBooksIcon from './../../images/Google-Play-Books-icon.png';
 import IBooksIcon from './../../images/iBook-icon.png';
-
+import {Link} from 'react-router-dom';
 
 const mapStateToProps = (state) => {
   return {
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Summary = ({books}) => {
+const SummaryView = ({books}) => {
   
   return(
     <div className="row bg-faded p-3">
@@ -58,6 +58,21 @@ const Summary = ({books}) => {
   );
 }
 
+const NoBooksView = () => {
+  return(
+    <div >
+      <div className="jumbotron">
+      <h1 className="display-3">Welcome Back</h1>
+      <p className="lead"> This is an online shelf to collate all your books in one place!</p>
+      <hr className="my-4"></hr>
+      <p className="lead">
+        <Link className="btn btn-primary btn-lg" to="/book" >Add Book </Link>
+      </p>
+      </div>
+      </div>
+  );
+}
+
 
 class LoggedInView extends React.Component {
 
@@ -71,7 +86,7 @@ class LoggedInView extends React.Component {
     if (books !== undefined) {
       return (
         <div>
-          <Summary books={books}/>
+          <SummaryView books={books}/>
           <h1 className="text-muted text-center display-4 pt-3"> All Books </h1>
           <CardGroup className="col-md-10 mx-auto ">
             {
@@ -85,8 +100,7 @@ class LoggedInView extends React.Component {
     }
     return (
       <div>
-        <h1 className="text-muted text-center display-4 pt-3" > All Books </h1>
-        No Books yet....
+        <NoBooksView />
        </div>);
 
   }
