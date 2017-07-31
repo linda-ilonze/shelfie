@@ -1,0 +1,1 @@
+This project was created as a pet project to learn react, redux,react-router.
