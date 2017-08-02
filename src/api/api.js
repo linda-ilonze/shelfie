@@ -79,5 +79,9 @@ export const addBook = (book, token) => {
         console.log(error);
         return error;
     })
-
+}
+export const searchBooks = (text) => {
+    return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${text}&key=AIzaSyAp6lvEvmlajjwTPKzztXmoxiX70YmMVCA`)
+    .then(response =>  response.data)
+    .catch(error => error);
 }

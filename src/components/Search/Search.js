@@ -6,7 +6,8 @@ import {connect} from 'react-redux';
 import {  UPDATE_INPUT_VALUE,
           CLEAR_SUGGESTIONS,
           LOAD_SUGGESTIONS_BEGIN,
-          MAYBE_UPDATE_SUGGESTIONS} from './../../constants/actionTypes';
+          MAYBE_UPDATE_SUGGESTIONS,
+          BOOK_SELECTED} from './../../constants/actionTypes';
 
 const loadSuggestions = (value) => {
   return dispatch => {
@@ -32,6 +33,12 @@ const loadSuggestionsBegin = () => {
   };
 }
 
+const bookSelected = (book) => {
+  return {
+    type : BOOK_SELECTED,
+    book
+  }
+}
 const getSuggestionValue = (suggestion) => {
   return suggestion;
 }
@@ -61,6 +68,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onSuggestionsClearRequested: () => {
       dispatch(clearSuggestions());
+    },
+    onBookSelected : (book) => {
+      dispatch(bookSelected(book))
     }
 });
 
@@ -71,6 +81,7 @@ class Search extends React.Component {
       suggestions,
       onChange,
       onSuggestionsFetchRequested,
+      onBookSelected,
       onSuggestionsClearRequested } = this.props;
 
     const inputProps = {
@@ -85,7 +96,7 @@ class Search extends React.Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
+          getSuggestionValue={onBookSelected}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps} />
       </div>
