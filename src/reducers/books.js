@@ -31,7 +31,8 @@ export default (state=defaultState ,action={}) =>{
         case BOOK_SELECTED:
             return{
                 ...state,
-                selectedBook: action.book
+                selectedBook: action.suggestion,
+                isLoading :false
             }
         case BOOK_ADDED :
         return {

@@ -1,25 +1,16 @@
-import BookApi from '../api/bookApi';
-import {MAYBE_UPDATE_SUGGESTIONS,LOAD_SUGGESTIONS_BEGIN,BOOKS_LOADED,BOOK_ADDED} from '../constants/actionTypes';
+// import {getUserApi, loginApi, registerApi} from '../api/api';
+// import {MAYBE_UPDATE_SUGGESTIONS,LOAD_SUGGESTIONS_BEGIN,BOOKS_LOADED,BOOK_ADDED} from '../constants/actionTypes';
 
-export const loadBooks = () => {
-    return(dispatch)=> {
-        return BookApi.loadBooks()
-        .then(books=>{
-            dispatch({type:BOOKS_LOADED, books});
-        });
-    }
-}
+// export const addBook = (book) => {
+//     return(dispatch) => {
+//         if(book === null) return;
 
-export const addBook = (book) => {
-    return(dispatch) => {
-        if(book === null) return;
-
-        return BookApi.addBook(book)
-        .then (book => {
-            dispatch({type:BOOK_ADDED,book});
-        } );
-    }
-}
+//         return BookApi.addBook(book)
+//         .then (book => {
+//             dispatch({type:BOOK_ADDED,book});
+//         } );
+//     }
+// }
 
 export const searchBooks = (value) => {
     return(dispatch) => {

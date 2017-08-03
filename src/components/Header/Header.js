@@ -42,7 +42,7 @@ class Header extends React.Component
     }
     const  token = this.props.token ? this.props.token  : savedAuth.user.token;
     const username = this.props.username ? this.props.username : savedAuth.user.username;
-    if(token === undefined ){
+    if(token === undefined || token === null ){
         return (
           <div>
           <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">

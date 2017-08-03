@@ -1,12 +1,11 @@
 import React from 'react';
 import './search.css';
-import {searchBooks} from './../../actions/bookActions';
+import {searchBooks} from './../../api/api';
 import Autosuggest from 'react-autosuggest';
 import {connect} from 'react-redux';
 import {  UPDATE_INPUT_VALUE,
           CLEAR_SUGGESTIONS,
           LOAD_SUGGESTIONS_BEGIN,
-          MAYBE_UPDATE_SUGGESTIONS,
           BOOK_SELECTED} from './../../constants/actionTypes';
 
 const loadSuggestions = (value) => {
@@ -18,7 +17,7 @@ const loadSuggestions = (value) => {
 
 const updateInputValue = (value) => {
   return {
-    type: UPDATE_INPUT_VALUE,value  };
+    type: UPDATE_INPUT_VALUE, value  };
 }
 
 const clearSuggestions = () => {
@@ -32,21 +31,17 @@ const loadSuggestionsBegin = () => {
     type: LOAD_SUGGESTIONS_BEGIN
   };
 }
-
-const bookSelected = (book) => {
+const getSuggestionValue = (suggestion) => {
   return {
     type : BOOK_SELECTED,
-    book
-  }
-}
-const getSuggestionValue = (suggestion) => {
-  return suggestion;
+    suggestion
+  };
 }
 
 const renderSuggestion = (suggestion) => {
   return (
     <div>
-      <img width="20%" src={suggestion.smallThumbnail} />
+      <img width="20%" src={suggestion.smallThumbnail}  alt={suggestion.title}/>
       <span className="ml-2">{suggestion.title}</span>
     </div>
   );
@@ -69,20 +64,23 @@ const mapDispatchToProps = (dispatch) => ({
     onSuggestionsClearRequested: () => {
       dispatch(clearSuggestions());
     },
-    onBookSelected : (book) => {
-      dispatch(bookSelected(book))
-    }
+    onGetSuggestionValue : (suggestion) => {
+      dispatch(getSuggestionValue(suggestion));
+      return ""; //need to return an empty string as autosuggest sets this value to the input field after processing
+
+      }
 });
 
 class Search extends React.Component {
   render() {
+    
     const {
       value,
       suggestions,
       onChange,
       onSuggestionsFetchRequested,
-      onBookSelected,
-      onSuggestionsClearRequested } = this.props;
+      onSuggestionsClearRequested,
+      onGetSuggestionValue } = this.props;
 
     const inputProps = {
       placeholder: "Search for book title, author or description",
@@ -90,13 +88,14 @@ class Search extends React.Component {
       onChange
     };
 
+
     return (
       <div className="pt-5">
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={onBookSelected}
+          getSuggestionValue={onGetSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps} />
       </div>
