@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getUser } from './../../actions/authActions';
 import BookCard from './../Book/BookCard';
-import { Card,CardImg, CardBlock, CardGroup } from 'reactstrap';
+import { Card,CardImg, CardBlock, CardDeck } from 'reactstrap';
 import KindleIcon from './../../images/Kindle-icon.png';
 import PlayBooksIcon from './../../images/Google-Play-Books-icon.png';
 import IBooksIcon from './../../images/iBook-icon.png';
@@ -27,7 +27,7 @@ const SummaryView = ({books}) => {
   return(
     <div className="row bg-faded p-3">
     <div className="mx-auto">
-      <CardGroup >
+      <CardDeck >
         <Card className="m-3"> 
           <CardBlock>
             <h1 className="display-4 pull-right text-muted">12</h1>
@@ -52,7 +52,7 @@ const SummaryView = ({books}) => {
             <i className="fa fa-book fa-5x"></i>
           </CardBlock>
         </Card>
-      </CardGroup>
+      </CardDeck>
   </div>
   </div>
   );
@@ -88,13 +88,13 @@ class LoggedInView extends React.Component {
         <div>
           <SummaryView books={books}/>
           <h1 className="text-muted text-center display-4 pt-3"> All Books </h1>
-          <CardGroup className="col-md-10 mx-auto ">
+          <CardDeck className="col-md-10 mx-auto ">
             {
               books.map((book) => (
                 <BookCard book={book} key={book.updatedAt} />
               ))
             }
-          </CardGroup>
+          </CardDeck>
         </div>
       );
     }

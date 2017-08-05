@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onGetSuggestionValue : (suggestion) => {
       dispatch(getSuggestionValue(suggestion));
-      return ""; //need to return an empty string as autosuggest sets this value to the input field after processing
+      return suggestion.title; //need to return an empty string as autosuggest sets this value to the input field after processing
 
       }
 });
@@ -90,7 +90,7 @@ class Search extends React.Component {
 
 
     return (
-      <div className="pt-5">
+      <div className=" bg-faded pt-5 pb-5 ">
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}

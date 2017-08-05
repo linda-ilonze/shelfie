@@ -1,6 +1,6 @@
 import {URL} from './base';
 import axios from 'axios';
-import {MAYBE_UPDATE_SUGGESTIONS,LOAD_SUGGESTIONS_BEGIN,BOOKS_LOADED,BOOK_ADDED} from '../constants/actionTypes';
+import {MAYBE_UPDATE_SUGGESTIONS} from '../constants/actionTypes';
 
 
 export const getUserApi = (token) =>{
