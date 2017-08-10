@@ -5,7 +5,8 @@ CLEAR_SUGGESTIONS,
 MAYBE_UPDATE_SUGGESTIONS,
 LOAD_SUGGESTIONS_BEGIN,
 BOOK_SELECTED,
-BOOK_ADDED
+BOOK_ADDED,
+USER_PROFILE_LOADED
 }  from '../constants/actionTypes';
 
 const defaultState = {
@@ -13,12 +14,13 @@ const defaultState = {
     suggestions:[],
     isLoading:false,
     selectedBook: {},
+    bookAdded : false,
     value:''
 }
 
 export default (state=defaultState ,action={}) =>{
     switch (action.type) {
-        case 'USER_PROFILE_LOADED' :
+        case USER_PROFILE_LOADED :
         return {
             ...state,
             books : action.user.books
@@ -36,8 +38,8 @@ export default (state=defaultState ,action={}) =>{
             }
         case BOOK_ADDED :
         return {
-                ...state //TODO trigger reload of books somehow, clear selection
-
+                ...state, //TODO trigger reload of books somehow, clear selection
+                bookAdded : action.bookAdded
         }
         case UPDATE_INPUT_VALUE :
         return {

@@ -30,6 +30,12 @@ export default (state= defaultState,action) =>{
             shouldRedirect:false,
             token:null
         };
+        case 'USER_PROFILE_LOADED':
+        return {
+            ...state,
+            currentUser : action.user.user,
+            token :action.user.user.token
+        }
       
         default:
            return state;

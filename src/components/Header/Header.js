@@ -1,12 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import { Navbar, NavItem, NavLink,NavDropdown,DropdownToggle,DropdownMenu, DropdownItem,NavbarToggler,NavbarBrand,Collapse,Nav} from 'reactstrap';
 import {getSavedAuth,removeAuth,setAuth} from './../../actions/authActions';
+import {toggleHeaderOpen,toggleHeaderCollapse} from './../../actionCreators/authActionCreators';
+
 
 const mapStateToProps = (state) =>{
   return {
     token : state.auth.token,
-    username : state.auth.username
+    username : state.auth.username,
+    isOpen : state.header.isOpen,
+    isExpanded : state.header.isExpanded
   }
 };
 
@@ -14,7 +19,9 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) => {
   return {
     onRemoveAuth : () => dispatch(removeAuth()),
-    onSetAuth : (user) => dispatch(setAuth(user))
+    onSetAuth : (user) => dispatch(setAuth(user)),
+    toggle :(status)  => dispatch(toggleHeaderOpen(status)),
+    toggleCollapse : (status) => dispatch(toggleHeaderCollapse(status))
   };
 }
 
@@ -25,6 +32,8 @@ class Header extends React.Component
     super(props);
     this.removeSavedAuth = this.removeSavedAuth.bind(this);
     this.setAuth = this.setAuth.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.toggleCollapse = this.toggleCollapse.bind(this);
   }
 
   setAuth(user){
@@ -33,68 +42,71 @@ class Header extends React.Component
   removeSavedAuth(){
     this.props.onRemoveAuth();
   }
-  render(){
+  toggle(){
+    this.props.toggle(!this.props.isOpen);
+  }
+  toggleCollapse(){
+    this.props.toggleCollapse(!this.props.isExpanded);
+  }
+  getAuth(){
+    
     const savedAuth = getSavedAuth();
-
     if(this.props.token === null ){
       if(savedAuth.user.token !== "" && savedAuth.user.username !== "")
         this.props.onSetAuth(savedAuth);
     }
     const  token = this.props.token ? this.props.token  : savedAuth.user.token;
     const username = this.props.username ? this.props.username : savedAuth.user.username;
-    if(token === undefined || token === null  || token === "" ){
+    return({token,username});
+  }
+  render(){
+   const {token,username} =  this.getAuth();
+    if(token === undefined || token === null  || token === "" )
+    {
         return (
           <div>
-          <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-            <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <NavLink className="navbar-brand" to="/">Shelfie</NavLink>
-            <div className="collapse navbar-collapse" id="navbarText">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/">Home </NavLink>
-                </li>
-              </ul>
-    
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <NavLink  className="nav-link" to="/login" > Login </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink  className="nav-link" to="/register" > Register </NavLink>
-                </li>
-              </ul>
-              : <div> Other </div>
-            </div>
-            </nav>
+            <Navbar light toggleable >
+              <NavbarToggler right onClick={this.toggle} />
+              <NavbarBrand href="/">Shelfie</NavbarBrand>
+              <Collapse isOpen={this.props.isExpanded} navbar>
+                <Nav className="ml-auto" navbar>
+                  <NavItem>
+                    <NavLink tag={Link} to="/">Home</NavLink>
+                  </NavItem>
+                  <NavItem>
+                  <NavLink tag={Link} to="/login">Login</NavLink>
+                  </NavItem>
+                  <NavItem>
+                  <NavLink tag={Link} to="/register">Register</NavLink>
+                  </NavItem>
+                </Nav>
+              </Collapse>
+            </Navbar>
           </div>
         )
       }
 
     return (
-      <div>
-      <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-        <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <NavLink className="navbar-brand" to="/">Shelfie</NavLink>
-        <div className="collapse navbar-collapse" id="navbarText">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/">Home </NavLink>
-            </li>
-          </ul>
-
-          <span className="navbar-item">
-            <NavLink  className="nav-link" to="/" > {username} </NavLink>
-          </span>
-          <span className="navbar-item">
-            <button  className="nav-link" onClick={this.removeSavedAuth} type="submit" > Logout</button>
-          </span>
-        </div>
-        </nav>
-      </div>
+      <Navbar light toggleable >
+      <NavbarToggler right onClick={this.toggle} />
+      <NavbarBrand href="/">Shelfie</NavbarBrand>
+      <Collapse isOpen={this.props.isExpanded} navbar>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink tag={Link} to="/">Home</NavLink>
+          </NavItem>
+            <NavDropdown isOpen={this.props.isOpen} toggle={this.toggle} >
+            <DropdownToggle nav caret >
+                {username}
+              </DropdownToggle>
+            <DropdownMenu>
+            <DropdownItem header>{username}</DropdownItem>
+            <button className="dropdown-item" onClick={this.removeSavedAuth}>Logout</button>
+            </DropdownMenu>
+          </NavDropdown>
+        </Nav>
+      </Collapse>
+    </Navbar>
     )
   }
 

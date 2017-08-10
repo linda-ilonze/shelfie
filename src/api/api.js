@@ -57,21 +57,28 @@ export const registerApi = (email, username, password) => {
 }
 
 export const addBook = (book, token) => {
-    return axios.post(`${URL}/users/addBook`, 
-    {
-        book : {
-            title: book.title,
-            description: book.description,
-            isbn : book.isbn,
-            author: book.author,
-            category : book.category,
-            averageRating : book.averageRating,
-            smallThumbnail: book.smallThumbnail,
-            thumbnail: book.thumbnail,
-            language: book.language,
-            publisher: book.publisher,
-            publishedDate: book.publishedDate,
-            googleLink :book.googleLink      
+    return axios({
+        method :'post',
+        url :  `${URL}/users/addBook`, 
+        headers : {
+            'Authorization' : `Token ${token}`
+        },
+        data : {
+            book : {
+                    title: book.title,
+                    description: book.description,
+                    isbn : book.isbn,
+                    author: book.author,
+                    application :'Kindle',
+                    category : book.category,
+                    averageRating : book.averageRating,
+                    smallThumbnail: book.smallThumbnail,
+                    thumbnail: book.thumbnail,
+                    language: book.language,
+                    publisher: book.publisher,
+                    publishedDate: book.publishedDate,
+                    googleLink :book.googleLink      
+                }
         }
     })
     .then(function(response){

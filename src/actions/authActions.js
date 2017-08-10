@@ -1,5 +1,11 @@
-import {getUserApi, loginApi, registerApi} from '../api/api';
-import {loginSucess, registerSucess, loginError,logoutSuccess, userProfileLoaded } from './../actionCreators/authActionCreators';
+import {getUserApi, loginApi, registerApi, addBook} from '../api/api';
+import {loginSucess, 
+    registerSucess, 
+    loginError,
+    logoutSuccess, 
+    userProfileLoaded,
+    bookLoaded,
+    bookAdded } from './../actionCreators/authActionCreators';
 
 
 const saveAuth = (user) => {
@@ -32,7 +38,7 @@ export const getSavedAuth = () => {
             username : window.localStorage.getItem('username')
         }
     };
-  //  saveAuth(user);
+   // saveAuth(user);
     return user;
 }
 
@@ -66,7 +72,16 @@ export const getUser = (token) => {
     return(dispatch) => {
         return getUserApi(token)
         .then(response => {
-            dispatch(userProfileLoaded(response))
+            dispatch(bookLoaded(response.user.books))
+        });
+    }
+}
+
+export const postAddBook = (book,token) => {
+    return (dispatch) =>{
+        return addBook(book,token)
+        .then(response => {
+            dispatch(bookAdded(response.user));
         });
     }
 }
